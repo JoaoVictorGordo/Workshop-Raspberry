@@ -1,0 +1,1 @@
+﻿Moved Marcelos Project to: https://github.com/simoesusp/HealthCare/tree/master/People-and-Equipment-Asset-Tracking-iBeacon/Marcelo/iBeacon

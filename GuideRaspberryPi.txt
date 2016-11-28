@@ -1,4 +1,4 @@
-A guide to getting started with the Raspberry Pi. 
+﻿A guide to getting started with the Raspberry Pi. 
 	- Extracted from: https://www.raspberrypi.org/forums/viewtopic.php?t=4751
 	- Modified by Simoes
 
@@ -72,11 +72,15 @@ http://www.raspberrypi.org/downloads
 
 - After that (but only the first time you boot) you will be presented with the "raspi-config" configuration menu.
 - You should use this to expand the space on your SD-card to the full size of the card (if you used NOOBS to install the system, it automatic expanded the SD card), and to set the keyboard configuration. You can also use this menu for other basic configuration options such as changing your password.
+
+- If you want to talk to an Arduino or other Raspberrys via hardware serial, don't forget to enable it at: Advanced Options / A8 Serial
+- You can also enable to boot direct to the Desktop environment (grafic interface) at: Enable boot to Desktop/Scratch
+
 - The menu won't be shown on later boots, but can be recalled at any time by using the following code:
 	sudo raspi-config
 
 - To get into the familiar graphical user interface (GUI), after you have logged in, type 
-	startx
+	startx (CTRL+ALT+F3 go back)
 
 - At the end of your session, when you wish to stop and turn off the Pi, enter following text:
 	sudo halt
@@ -108,10 +112,10 @@ or
 
 
 x---------------x--------------------x
-		BILEKI'S GUIDE     ---   Need translation... Anyone wanting to help...
+		BILEKI'S GUIDE on How to prepare the SD Card on Linux    ---   
 x---------------X--------------------X
 
-1) How to prepare the SD Card on Linux - Without use NOOBS
+1) How to prepare the SD Card on Linux - Without using NOOBS
 
 - Step 1: Insert the SD Card in the laptop card reader.
 
@@ -321,7 +325,8 @@ gateway – This is the 'Gateway' address we found earlier.
 
 	sudo reboot
 
-- One last thing that needs to be modified is the /etc/resolv.conf file. (ISSO NAO FUNCIONA!!! a Raspberry apaga esse arquivo toda vez que reboota!!!!!!!!!!!!! Eu adicionei uma linha com nameservers direto no arquivo interfaces e funcionou!!!) This file contains information of DNS name resolvers that allow your raspberry pi to resolve names to IP addresses.  For example, if you ping www.suntimebox.com the raspberry pi will have to determine the IP address of www.suntimebox.com.
+- One last thing that needs to be modified is the /etc/resolv.conf file. (Problem: This does not work for me!!Raspberry erases this file every time it reboots!!!!!!!! I included one line with nameservers in the "interfaces" file and it finally worked!!!!!!!!!!!
+-- This file contains information of DNS name resolvers that allow your raspberry pi to resolve names to IP addresses.  For example, if you ping www.suntimebox.com the raspberry pi will have to determine the IP address of www.suntimebox.com.
 - Enter the following command to edit the resolv.conf file.
 
 	sudo nano /etc/resolv.conf
@@ -329,8 +334,8 @@ gateway – This is the 'Gateway' address we found earlier.
 		nameserver 8.8.8.8
 		name server 8.8.4.4
 
---> O problema e' que não sei porque mas a rasp esta apagando esse arquivo toda vez que reboota!!
--- Então, o jeito e' adicionar a linha abaixo no arquivo etc/network/interfaces:
+--> The problem is that Rasp will erase this file everityme it reboots!!! Do not know why!!!
+-- So, the trick is to add the line bellow to the file: etc/network/interfaces:
 	dns-nameservers 143.107.231.12 8.8.8.8
 
 
@@ -356,7 +361,7 @@ Edit with: sudo nano /etc/network/interfaces
 	wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
 
 
-	-->> restart the network stuff without need reboot!!!!:
+	-->> restart the network stuff without need reboot (That did not work for me!!!!!)!:
 		sudo /etc/init.d/networking restart
 
 		
@@ -406,7 +411,9 @@ X------------------X-------------------X
 - Se botar -v  na linha de comando pra compilar, ele da um monte de mensagems dizendo tudo que ta fazendo!!
 	- Assim pode-se conferir se pegou os parâmetros do Arm7
 	
-- Ctr-Alt-Backspace   -->  Terminate X server
+- Ctr-Alt-Backspace   -->  Logout 
+- Ctr-Alt-F3   -->  Terminate X server and move to terminal
+- startx       -->  Strart the Graphical User Interface (GUI) 
 
 2) Firefox   --> O Firefox tem outra distribuição para a Raspberry, chama Iceweasel
 	sudu apt-get install iceweasel
@@ -439,7 +446,7 @@ Code Exemple:
 	int main (void)
 	{
 	  wiringPiSetup () ;
-	  pinMode (0, OUTPUT) ;
+	  pinMode (0, OUTPUT) ;		// Pin 0 here (wiringPi Library) is pin 17 in the OnBoard Connector!!!
 	  for (;;)
 	  {
 		digitalWrite (0, HIGH) ; delay (500) ;
